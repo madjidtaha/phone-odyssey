@@ -21,6 +21,7 @@
   },
   "homepage": "https://gitlab.com/vdaguenet/vintage-phone#README",
   "dependencies": {
+    "express": "^4.13.3",
     "johnny-five": "^0.8.97"
   },
   "devDependencies": {

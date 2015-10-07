@@ -115,7 +115,7 @@
     "wrap-iife": [1, "inside"],
     "yoda": [1, "never"],
 
-    "strict": [1, "never"],
+    "strict": false,
 
     "no-catch-shadow": 0,
     "no-delete-var": 1,
