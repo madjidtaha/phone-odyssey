@@ -1,5 +1,13 @@
+'use strict';
+
 const Server = require('./server/Server');
-const config = require('./config/server.js');
+const Websocket = require('./server/Websocket');
+const config = require('./config/server');
 
 const server = new Server(config.port, config.publicDir);
 server.start();
+
+const socket = new Websocket();
+socket.start();
+
+
