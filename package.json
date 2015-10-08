@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev:server": "nodemon --harmony index.js",
+    "dev:server": "nodemon index.js",
     "dev:build": "webpack -d --watch",
     "prod": "npm run clean && webpack -p --progress",
     "clean": "find ./client/public/build -name \"*.map\" -type f -delete"
