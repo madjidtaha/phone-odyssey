@@ -2,12 +2,14 @@
 
 var Server = require('./server/Server');
 var Websocket = require('./server/Websocket');
-var config = require('./config/server');
+var App = require('./server/App');
+var configServer = require('./config/server');
+var configSocket = require('./config/socket');
 
-var server = new Server(config.port, config.publicDir);
+var app = new App('/dev/cu.usbmodem1411');
+
+var server = new Server(configServer.port, configServer.publicDir);
 server.start();
 
-var socket = new Websocket();
+var socket = new Websocket(configSocket.port);
 socket.start();
-
-

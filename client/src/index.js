@@ -8,4 +8,8 @@ domready(() => {
   socketServer.on('connection:success', () => {
     console.log('[Socket] Connection - success!');
   });
+
+  socketServer.on('gyro:update', (angles) => {
+    console.log('[Socket] Gyro update', angles);
+  });
 });
