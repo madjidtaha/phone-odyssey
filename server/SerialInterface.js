@@ -23,7 +23,6 @@ SerialInterface.prototype.onOpen = function() {
 };
 
 SerialInterface.prototype.onData = function(data) {
-  console.log('[Serial] get data');
   Mediator.emit('serial:data', data);
 };
 
