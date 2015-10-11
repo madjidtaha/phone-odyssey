@@ -33,6 +33,6 @@ class Gyro
     int _x;
     int _y;
     int _z;
-    void writeRegister(int deviceAddress, byte address, byte val);
-    int readRegister(int deviceAddress, byte address);
+    void writeRegister(byte address, byte val);
+    int readRegister(byte address);
 };
