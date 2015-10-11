@@ -1,5 +1,8 @@
 #include "MagnetoCompass.h"
 
+/* =======================================================
+ * CONSTRUCTOR
+ * ====================================================== */
 MagnetoCompass::MagnetoCompass(int address) {
   _address = address;
   _x = 0;
@@ -7,6 +10,13 @@ MagnetoCompass::MagnetoCompass(int address) {
   _z = 0;
 }
 
+/* =======================================================
+ * PUBLIC API
+ * ====================================================== */
+
+/**
+ * Init sensor
+ */
 void MagnetoCompass::setup() {
   //open communication with HMC5883
   Wire.beginTransmission(_address);
@@ -17,6 +27,9 @@ void MagnetoCompass::setup() {
   Wire.endTransmission();
 }
 
+/**
+ * Read values from sensor
+ */
 void MagnetoCompass::read() {
    //Tell the HMC5883 where to begin reading data
    Wire.beginTransmission(_address);
@@ -36,14 +49,26 @@ void MagnetoCompass::read() {
    }
 }
 
+/**
+ * Get angle on X axis (in degrees)
+ * @return int
+ */
 int MagnetoCompass::getX() {
   return _x;
 }
 
+/**
+ * Get angle on Y axis (in degrees)
+ * @return int
+ */
 int MagnetoCompass::getY() {
   return _y;
 }
 
+/**
+ * Get angle on Z axis (in degrees)
+ * @return int
+ */
 int MagnetoCompass::getZ() {
   return _z;
 }
