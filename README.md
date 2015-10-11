@@ -7,12 +7,14 @@ The project we made for the Arduino workshop at [Gobelins, l'école de l'image](
 
 1. Clone this repository
 
-2. Change your node version to the v0.12 using [NVM](https://github.com/creationix/nvm)
+2. Upload `./bin/vintage-phone/vintage-phone.ino` file on your Arduino board.
 
-3. Install the dependencies
-```bash
-npm install
-```
+3. Change your node version to the v0.12 using [NVM](https://github.com/creationix/nvm)
+
+4. Install the dependencies
+  ```bash
+  npm install
+  ```
 
 ## Development
 
