@@ -4,6 +4,7 @@ var SerialInterface = require('./SerialInterface');
 var Mediator = require('./utils/Mediator');
 var bindAll = require('lodash.bindAll');
 var Gyro = require('./sensors/Gyro');
+var Compass = require('./sensors/Compass');
 
 function App(port) {
   bindAll(this, 'start', 'onData');
@@ -14,6 +15,7 @@ function App(port) {
   // register the sensors
   this.sensors = {
     gyro: new Gyro(),
+    compass: new Compass()
   };
 
   Mediator.once('serial:open', this.start);
@@ -37,7 +39,12 @@ App.prototype.onData = function(data) {
     data = JSON.parse(arr[2]);
     this.sensors.gyro.setAngles(data.x, data.y, data.z);
     break;
+  case 'compass':
+    data = JSON.parse(arr[2]);
+    this.sensors.compass.setValues(data.x, data.y, data.z);
+    break;
   }
+
 };
 
 module.exports = App;

@@ -14,6 +14,9 @@ function addSocketEvents() {
   socketServer.on('gyro:update', (angles) => {
     console.log('[Socket] Gyro update', angles);
   });
+  socketServer.on('compass:update', (data) => {
+    console.log('[Socket] Compass update', data);
+  });
 }
 
 domready(() => {
