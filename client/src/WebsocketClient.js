@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import bindAll from 'lodash.bindAll';
+import Mediator from 'shared/Mediator';
 
 export default class WebsocketClient {
   constructor(url) {
@@ -10,21 +11,21 @@ export default class WebsocketClient {
     this.io.on('connection:success', this.onConnection);
   }
 
-  attachEvents() {
-    this.io.on('gyro:update', this.onGyroUpdate);
-    this.io.on('compass:update', this.onCompassUpdate);
-  }
-
   onConnection() {
     console.log('[Socket] Connection - success!');
     this.attachEvents();
   }
 
+  attachEvents() {
+    this.io.on('gyro:update', this.onGyroUpdate);
+    this.io.on('compass:update', this.onCompassUpdate);
+  }
+
   onGyroUpdate(angles) {
-    console.log('[Socket] Gyro update', angles);
+    Mediator.emit('gyro:update', angles);
   }
 
   onCompassUpdate(data) {
-    console.log('[Socket] Compass update', data);
+    Mediator.emit('compass:update', data);
   }
 }

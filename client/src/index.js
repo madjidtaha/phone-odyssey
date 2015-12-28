@@ -9,7 +9,6 @@ const socketServer = new WebsocketClient(socketConfig.url);
 const webgl = new Webgl(window.innerWidth, window.innerHeight);
 
 domready(() => {
-  console.log('Hello world');
   document.body.appendChild(webgl.renderer.domElement);
   // handle resize
   window.onresize = resizeHandler;

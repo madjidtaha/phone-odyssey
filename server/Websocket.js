@@ -2,7 +2,7 @@
 
 var Socket = require('socket.io');
 var bindAll = require('lodash.bindall');
-var Mediator = require('./utils/Mediator');
+var Mediator = require('../shared/Mediator');
 
 function Websocket(port) {
   bindAll(this, 'onConnection', 'onDisconnect', 'onGyroUpdate', 'onCompassUpdate');

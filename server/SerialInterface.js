@@ -2,7 +2,7 @@
 
 var com = require('serialport');
 var bindAll = require('lodash.bindall');
-var Mediator = require('./utils/Mediator');
+var Mediator = require('../shared/Mediator');
 
 function SerialInterface(port, baudrate) {
   bindAll(this, 'onOpen', 'onData', 'send');

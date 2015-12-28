@@ -1,7 +1,7 @@
 'use strict';
 
 var SerialInterface = require('./SerialInterface');
-var Mediator = require('./utils/Mediator');
+var Mediator = require('../shared/Mediator');
 var bindAll = require('lodash.bindAll');
 var Gyro = require('./sensors/Gyro');
 var Compass = require('./sensors/Compass');

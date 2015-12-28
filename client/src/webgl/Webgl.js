@@ -1,13 +1,21 @@
 import THREE from 'three';
-window.THREE = THREE;
 import Cube from './objects/Cube';
+import VintagePhoneControls from './controls/VintagePhoneControls';
+import Mediator from 'shared/Mediator';
+import bindAll from 'lodash.bindAll';
 
 export default class Webgl {
   constructor(width, height) {
+    bindAll(this, 'onGyroUpdate', 'onCompassUpdate');
+
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
     this.camera.position.z = 100;
+
+    this.controls = new VintagePhoneControls(this.camera);
+    // Mediator.on('gyro:update', this.onGyroUpdate);
+    Mediator.on('compass:update', this.onCompassUpdate);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -25,10 +33,19 @@ export default class Webgl {
     this.renderer.setSize(width, height);
   }
 
+  onGyroUpdate(angles) {
+    this.controls.updateFromGyro(angles.x, angles.y, angles.z);
+  }
+
+  onCompassUpdate(data) {
+    this.controls.updateFromCompass(data.position, data.direction);
+  }
+
   render() {
     this.renderer.autoClear = false;
     this.renderer.clear();
     this.renderer.render(this.scene, this.camera);
     this.cube.update();
+    this.controls.update();
   }
 }
