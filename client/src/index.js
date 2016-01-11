@@ -18,4 +18,7 @@ function addSocketEvents() {
 
 domready(() => {
   console.log('Hello world');
+  document.getElementById('testSound').addEventListener('click', function(event) {
+    console.log('startSound');
+  });
 });
