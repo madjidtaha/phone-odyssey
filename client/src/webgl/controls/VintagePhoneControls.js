@@ -1,10 +1,13 @@
 export default class VintagePhoneControls {
-  constructor(camera) {
-    this.camera = camera;
+  constructor(object) {
+    this.object = object;
 
     this.toX = 0;
     this.toY = 0;
     this.toZ = 0;
+
+    this.intencityReduction = 0.1;
+    this.dampingFactor = 0.1;
 
     this.originalPos = undefined;
   }
@@ -16,16 +19,16 @@ export default class VintagePhoneControls {
       return;
     }
 
-    this.toX = pos.x - this.originalPos.x;
-    this.toY = pos.y - this.originalPos.y;
-    this.toZ = pos.z - this.originalPos.z;
+    this.toX = (pos.x - this.originalPos.x) * this.intencityReduction;
+    this.toY = (pos.y - this.originalPos.y) * this.intencityReduction;
+    this.toZ = (pos.z - this.originalPos.z) * this.intencityReduction;
   }
 
   updateFromGyro(ax, ay, az) {}
 
   update() {
-    this.camera.position.x += (this.toX - this.camera.position.x) * 0.1;
-    this.camera.position.y += (this.toY - this.camera.position.y) * 0.1;
-    // this.camera.position.z += (this.toZ - this.camera.position.z) * 0.1;
+    this.object.position.x += (this.toX - this.object.position.x) * this.dampingFactor;
+    this.object.position.y += (this.toY - this.object.position.y) * this.dampingFactor;
+    // this.object.position.z += (this.toZ - this.object.position.z) * this.dampingFactor;
   }
 }
