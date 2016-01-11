@@ -15,8 +15,18 @@ var configSocket = require('./config/socket');
 // var socket = new Websocket(configSocket.port);
 // socket.start();
 
-var player = new Player(__dirname + '/server/sounds/tts1.mp3');
-console.log(__dirname);
+var player = new Player([
+  __dirname + '/server/sounds/tts1.mp3',
+])
+.on('error', function(){
+  console.log('error');
+});
+
+player.play();
+
+var player = new Player([
+  __dirname + '/server/sounds/heyya.mp3'
+]);
 player
   .on('playing', function(song){
     console.log('je play lo', song);
@@ -30,3 +40,8 @@ player
   .play(function(err, player){
     console.log('playend!');
   });
+
+setTimeout(function (){
+  console.log('timeout');
+  player.stop();
+}, 5000);
