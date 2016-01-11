@@ -19,7 +19,7 @@ function Sound() {
     }
 
     files.forEach( function(file, i) {
-      this.sounds.push(file.slice(0, file.lastIndexOf('.'));
+      this.sounds.push(file.slice(0, file.lastIndexOf('.')));
     });
 
   });
