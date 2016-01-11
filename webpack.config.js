@@ -37,6 +37,7 @@ module.exports = {
   resolve: {
     alias: {
       webgl: path.join(__dirname, '/client/src/webgl'),
+      shared: path.join(__dirname, '/shared'),
       config: path.join(__dirname, '/config'),
     },
   },

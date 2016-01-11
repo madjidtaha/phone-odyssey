@@ -1,24 +1,33 @@
 import './stylus/main.styl';
 import socketConfig from 'config/socket.js';
-import io from 'socket.io-client';
 import domready from 'domready';
+import Webgl from './webgl/Webgl';
+import WebsocketClient from './WebsocketClient';
+import raf from 'raf';
 
-const socketServer = io(socketConfig.url);
+const socketServer = new WebsocketClient(socketConfig.url);
+const webgl = new Webgl(window.innerWidth, window.innerHeight);
 
-socketServer.on('connection:success', () => {
-  console.log('[Socket] Connection - success!');
-  addSocketEvents();
-});
-
-function addSocketEvents() {
-  socketServer.on('gyro:update', (angles) => {
-    console.log('[Socket] Gyro update', angles);
-  });
+function resizeHandler() {
+  webgl.resize(window.innerWidth, window.innerHeight);
 }
 
 domready(() => {
   console.log('Hello world');
-  document.getElementById('testSound').addEventListener('click', function(event) {
+  document.getElementById('testSound').addEventListener('click', function onClick(event) {
     console.log('startSound');
   });
+
+  document.body.appendChild(webgl.renderer.domElement);
+  // handle resize
+  window.onresize = resizeHandler;
+  // let's play !
+  animate();
+
 });
+
+function animate() {
+  raf(animate);
+
+  webgl.render();
+}

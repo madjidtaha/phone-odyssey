@@ -2,10 +2,10 @@
 
 var Socket = require('socket.io');
 var bindAll = require('lodash.bindall');
-var Mediator = require('./utils/Mediator');
+var Mediator = require('../shared/Mediator');
 
 function Websocket(port) {
-  bindAll(this, 'onConnection', 'onDisconnect', 'onGyroUpdate');
+  bindAll(this, 'onConnection', 'onDisconnect', 'onGyroUpdate', 'onCompassUpdate');
 
   this.port = port;
   this.clientConnected = false;
@@ -21,6 +21,7 @@ Websocket.prototype.start = function() {
 Websocket.prototype.attachEvents = function(socket) {
   socket.on('disconnect', this.onDisconnect);
   Mediator.on('gyro:change', this.onGyroUpdate);
+  Mediator.on('compass:change', this.onCompassUpdate);
 };
 
 Websocket.prototype.onConnection = function(socket) {
@@ -35,6 +36,10 @@ Websocket.prototype.onConnection = function(socket) {
 Websocket.prototype.onDisconnect = function() {
   console.log('[Socket] client disconnected');
   this.clientConnected = false;
+};
+
+Websocket.prototype.onCompassUpdate = function(pos) {
+  this.io.emit('compass:update', pos);
 };
 
 Websocket.prototype.onGyroUpdate = function(angles) {

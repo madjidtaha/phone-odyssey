@@ -1,6 +1,6 @@
 'use strict';
 
-var Mediator = require('../utils/Mediator');
+var Mediator = require('../../shared/Mediator');
 
 function Gyro() {
   this.angles = {
