@@ -9,12 +9,23 @@ const socketServer = new WebsocketClient(socketConfig.url);
 const webgl = new Webgl(window.innerWidth, window.innerHeight);
 const gui = new dat.GUI();
 
+function resizeHandler() {
+  webgl.resize(window.innerWidth, window.innerHeight);
+}
+
+// TODO: Make it clean please
+const soundManager = {
+  testSound: function() {
+    console.log("SOUND CLICKED");
+  }
+};
+
 domready(() => {
   document.body.appendChild(webgl.renderer.domElement);
 
-
   gui.add(webgl.params, 'usePostprocessing');
   gui.add(webgl.params, 'vignette');
+  gui.add(soundManager, 'testSound');
 
   // handle resize
   window.onresize = resizeHandler;
@@ -22,9 +33,6 @@ domready(() => {
   animate();
 });
 
-function resizeHandler() {
-  webgl.resize(window.innerWidth, window.innerHeight);
-}
 
 function animate() {
   raf(animate);
