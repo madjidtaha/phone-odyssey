@@ -10,7 +10,7 @@ var soundPath = __dirname + '/sounds';
 
 function Sound() {
   // bindAll(this, 'onConnection', 'onDisconnect', 'onGyroUpdate', 'onCompassUpdate');
-  this.sounds = [];
+  var sounds = [];
 
   fs.readdir(soundPath, function(err, files) {
     if (err) {
@@ -24,6 +24,8 @@ function Sound() {
 
   });
 
+  this.sounds = sounds;
+  
   console.log('files :', this.sounds);
 
 
