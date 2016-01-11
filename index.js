@@ -8,7 +8,7 @@ var Player = require('player');
 var configServer = require('./config/server');
 var configSocket = require('./config/socket');
 
-var app = new App('/dev/cu.usbmodem1421');
+// var app = new App('/dev/cu.usbmodem1421');
 
 var server = new Server(configServer.port, configServer.publicDir);
 server.start();
