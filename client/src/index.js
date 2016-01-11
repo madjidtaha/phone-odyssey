@@ -15,8 +15,12 @@ function resizeHandler() {
 
 // TODO: Make it clean please
 const soundManager = {
-  testSound: function() {
-    console.log("SOUND CLICKED");
+  testSound() {
+    console.log('SOUND CLICKED');
+    socketServer.onMusicChange({
+      src: 'heyya',
+    });
+
   }
 };
 

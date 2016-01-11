@@ -2,7 +2,7 @@
 
 var SerialInterface = require('./SerialInterface');
 var Mediator = require('../shared/Mediator');
-var bindAll = require('lodash.bindAll');
+var bindAll = require('lodash.bindall');
 var Gyro = require('./sensors/Gyro');
 var Compass = require('./sensors/Compass');
 

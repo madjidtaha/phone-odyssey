@@ -5,7 +5,14 @@ var bindAll = require('lodash.bindall');
 var Mediator = require('../shared/Mediator');
 
 function Websocket(port) {
-  bindAll(this, 'onConnection', 'onDisconnect', 'onGyroUpdate', 'onCompassUpdate');
+  bindAll(
+    this,
+    'onConnection',
+    'onDisconnect',
+    'onGyroUpdate',
+    'onCompassUpdate',
+    'onSoundChange'
+  );
 
   this.port = port;
   this.clientConnected = false;
@@ -22,6 +29,7 @@ Websocket.prototype.attachEvents = function(socket) {
   socket.on('disconnect', this.onDisconnect);
   Mediator.on('gyro:change', this.onGyroUpdate);
   Mediator.on('compass:change', this.onCompassUpdate);
+  socket.on('sound:play', this.onSoundChange);
 };
 
 Websocket.prototype.onConnection = function(socket) {
@@ -45,5 +53,9 @@ Websocket.prototype.onCompassUpdate = function(pos) {
 Websocket.prototype.onGyroUpdate = function(angles) {
   this.io.emit('gyro:update', angles);
 };
+
+Websocket.prototype.onSoundChange = function(data) {
+  Mediator.emit('sound:play', data);
+}
 
 module.exports = Websocket;
