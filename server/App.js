@@ -43,6 +43,14 @@ App.prototype.onData = function(data) {
     data = JSON.parse(arr[2]);
     this.sensors.compass.setValues(data.x, data.y, data.z);
     break;
+  case 'phone':
+    if (arr[2] == 'close') {
+      Mediator.emit('phone:close');
+    }
+    if (arr[2] == 'open') {
+      Mediator.emit('phone:open');
+    }
+    break;
   }
 
 };

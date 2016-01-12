@@ -4,7 +4,7 @@ import Mediator from 'shared/Mediator';
 
 export default class WebsocketClient {
   constructor(url) {
-    bindAll(this, 'onConnection', 'onGyroUpdate', 'onCompassUpdate');
+    bindAll(this, 'onConnection', 'onGyroUpdate', 'onCompassUpdate', 'onGameStart', 'onGameStop');
 
     this.url = url;
     this.io = io(url);
@@ -19,6 +19,8 @@ export default class WebsocketClient {
   attachEvents() {
     this.io.on('gyro:update', this.onGyroUpdate);
     this.io.on('compass:update', this.onCompassUpdate);
+    this.io.on('game:stop', this.onGameStop);
+    this.io.on('game:start', this.onGameStart);
   }
 
   onGyroUpdate(angles) {
@@ -27,6 +29,16 @@ export default class WebsocketClient {
 
   onCompassUpdate(data) {
     Mediator.emit('compass:update', data);
+  }
+
+  onGameStart() {
+    Mediator.emit('client:game:start');
+    console.log('[Socket] Game - start');
+  }
+
+  onGameStop() {
+    Mediator.emit('client:game:stop');
+    console.log('[Socket] Game - stop');
   }
 
   onSoundChange(data) {

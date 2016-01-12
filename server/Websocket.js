@@ -11,7 +11,9 @@ function Websocket(port) {
     'onDisconnect',
     'onGyroUpdate',
     'onCompassUpdate',
-    'onSoundChange'
+    'onSoundChange',
+    'stopGame',
+    'startGame'
   );
 
   this.port = port;
@@ -29,6 +31,8 @@ Websocket.prototype.attachEvents = function(socket) {
   socket.on('disconnect', this.onDisconnect);
   Mediator.on('gyro:change', this.onGyroUpdate);
   Mediator.on('compass:change', this.onCompassUpdate);
+  Mediator.on('phone:close', this.stopGame);
+  Mediator.on('phone:open', this.startGame);
   socket.on('sound:play', this.onSoundChange);
 };
 
@@ -57,5 +61,15 @@ Websocket.prototype.onGyroUpdate = function(angles) {
 Websocket.prototype.onSoundChange = function(data) {
   Mediator.emit('sound:play', data);
 }
+
+Websocket.prototype.startGame = function () {
+  console.log('[Phone] close');
+  this.io.emit('game:start');
+};
+
+Websocket.prototype.stopGame = function () {
+  console.log('[Phone] open');
+  this.io.emit('game:stop');
+};
 
 module.exports = Websocket;

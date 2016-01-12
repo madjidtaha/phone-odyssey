@@ -19,9 +19,17 @@ Gyro gyro(L3G4200D_Address, L3G4200D_Sensibility, L3G4200D_Scale);
 MagnetoCompass compass(30); // 0x1E 0011110b, I2C 7bit address of HMC5883
 String compassValues;
 
+//
+// Button
+//
+int buttonPin = 2;
+boolean phoneOpen = false;
+
 void setup() {
   Serial.begin(9600);
   Wire.begin();
+
+  pinMode(buttonPin, INPUT_PULLUP);
 
   gyro.setup();
   compass.setup();
@@ -30,19 +38,35 @@ void setup() {
 }
 
 void loop() {
+  int sensorVal = digitalRead(buttonPin);
+  if (sensorVal == LOW && phoneOpen == false) {
+    sendData("phone", "open");
+    phoneOpen = true;
+  }
+  
+  if (sensorVal == HIGH)  {
+    if (phoneOpen == true) {
+      sendData("phone", "close");  
+    }
+    
+    phoneOpen = false;
+  }
+  
   // read data only when we receive data:
-  if (Serial.available() > 0) {
-    readData();
-  } else {
-    gyro.read();
-    gyroValues = formatTripleAxisValues(gyro.getX(), gyro.getY(), gyro.getZ());
-    sendData("gyro", gyroValues);
-
-    compass.read();
-    compassValues = formatTripleAxisValues(compass.getX(), compass.getY(), compass.getZ());
-    sendData("compass", compassValues);
-
-    delay(300);
+  if (phoneOpen == true) {
+    if (Serial.available() > 0) {
+      readData();
+    } else {
+      gyro.read();
+      gyroValues = formatTripleAxisValues(gyro.getX(), gyro.getY(), gyro.getZ());
+      sendData("gyro", gyroValues);
+  
+      compass.read();
+      compassValues = formatTripleAxisValues(compass.getX(), compass.getY(), compass.getZ());
+      sendData("compass", compassValues);
+  
+      delay(300);
+    } 
   }
 }
 
@@ -53,8 +77,6 @@ void sendData(String room, String value) {
 void readData() {
   // Get the incomming string
   String str = Serial.readString();
-
-  // TODO parse the string and call the desired method
 }
 
 String formatTripleAxisValues(int x, int y, int z) {
