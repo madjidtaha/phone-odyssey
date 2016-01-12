@@ -1,10 +1,16 @@
 import io from 'socket.io-client';
-import bindAll from 'lodash.bindAll';
+import bindAll from 'lodash.bindall';
 import Mediator from 'shared/Mediator';
 
 export default class WebsocketClient {
   constructor(url) {
-    bindAll(this, 'onConnection', 'onGyroUpdate', 'onCompassUpdate');
+    bindAll(
+	this, 
+	'onConnection', 
+	'onGyroUpdate', 
+	'onCompassUpdate',
+	'onSoundChange'
+    );
 
     this.url = url;
     this.io = io(url);
@@ -19,6 +25,7 @@ export default class WebsocketClient {
   attachEvents() {
     this.io.on('gyro:update', this.onGyroUpdate);
     this.io.on('compass:update', this.onCompassUpdate);
+    Mediator.on('sound:play', this.onSoundChange);
   }
 
   onGyroUpdate(angles) {
@@ -30,6 +37,7 @@ export default class WebsocketClient {
   }
 
   onSoundChange(data) {
+    console.log(this.io);
     this.io.emit('sound:play', data)
   }
 

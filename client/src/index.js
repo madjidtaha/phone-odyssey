@@ -2,6 +2,7 @@ import socketConfig from 'config/socket.js';
 import domready from 'domready';
 import Webgl from './webgl/Webgl';
 import WebsocketClient from './WebsocketClient';
+import Mediator from 'shared/Mediator';
 import raf from 'raf';
 import dat from 'dat-gui';
 
@@ -15,13 +16,14 @@ function resizeHandler() {
 
 // TODO: Make it clean please
 const soundManager = {
+  
   testSound() {
     console.log('SOUND CLICKED');
-    socketServer.onMusicChange({
-      src: 'heyya',
+    Mediator.emit('sound:play', {
+      sound: 'tts1',
     });
-
   }
+
 };
 
 domready(() => {
