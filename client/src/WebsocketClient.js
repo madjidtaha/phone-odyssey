@@ -28,4 +28,9 @@ export default class WebsocketClient {
   onCompassUpdate(data) {
     Mediator.emit('compass:update', data);
   }
+
+  onSoundChange(data) {
+    this.io.emit('sound:play', data)
+  }
+
 }
