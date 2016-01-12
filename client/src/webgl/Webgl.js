@@ -1,6 +1,7 @@
 import THREE from 'three';
 import Cube from './objects/Cube';
 import Ground from './objects/Ground';
+import ParticleEmitter from './objects/ParticleEmitter';
 import VintagePhoneControls from './controls/VintagePhoneControls';
 import Mediator from 'shared/Mediator';
 import bindall from 'lodash.bindall';
@@ -12,7 +13,7 @@ const OrbitControls = OrbitControlsNode(THREE);
 
 export default class Webgl {
   constructor(width, height) {
-    bindAll(this, 'onGyroUpdate', 'onCompassUpdate');
+    bindall(this, 'onGyroUpdate', 'onCompassUpdate');
 
     this.params = {
       usePostprocessing: true,
@@ -20,7 +21,7 @@ export default class Webgl {
     };
 
     this.scene = new THREE.Scene();
-    
+
     this.clock = new THREE.Clock(true);
 
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
@@ -33,13 +34,15 @@ export default class Webgl {
     this.renderer.setClearColor(0x262626);
     this.renderer.autoClear = false;
 
-    this.cube = new Cube();
-    this.cube.position.set(0, 0, 0);
+    // this.cube = new Cube();
+    // this.cube.position.set(0, 0, 0);
+    this.particles = new ParticleEmitter();
+    this.particles.position.set(0, 0, 0);
+    this.scene.add(this.particles);
 
-    this.controls = new VintagePhoneControls(this.cube);
+    this.controls = new VintagePhoneControls(this.particles);
     // Mediator.on('gyro:update', this.onGyroUpdate);
     Mediator.on('compass:update', this.onCompassUpdate);
-    this.scene.add(this.cube);
 
     this.ground = new Ground();
     this.ground.position.set(0, -25, -100);
@@ -84,7 +87,9 @@ export default class Webgl {
       this.renderer.render(this.scene, this.camera);
     }
 
-    this.cube.update();
-    this.ground.update(this.clock.getDelta());
+    const dt = this.clock.getDelta();
+
+    this.particles.update(dt);
+    this.ground.update(dt);
   }
 }
