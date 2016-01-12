@@ -15,7 +15,7 @@ function Sound() {
   sounds = fs.readdirSync(soundPath);
 
   sounds.forEach( function(file, i) {
-    sounds[i] = file.slice(0, file.lastIndexOf('.')));
+    sounds[i] = file.slice(0, file.lastIndexOf('.'));
   });
 
 

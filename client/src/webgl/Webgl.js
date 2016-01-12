@@ -7,11 +7,11 @@ import bindAll from 'lodash.bindAll';
 import WAGNER from '@superguigui/wagner';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import Vignette2Pass from '@superguigui/wagner/src/passes/vignette/VignettePass';
-// const glslify = require('glslify');
+import OrbitControlsNode from 'three-orbit-controls';
+const OrbitControls = OrbitControlsNode(THREE);
 
 export default class Webgl {
   constructor(width, height) {
-    // console.log(glslify);
     bindAll(this, 'onGyroUpdate', 'onCompassUpdate');
 
     this.params = {
@@ -20,9 +20,13 @@ export default class Webgl {
     };
 
     this.scene = new THREE.Scene();
+    
+    this.clock = new THREE.Clock(true);
 
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
     this.camera.position.z = 100;
+
+    this.controls = new OrbitControls(this.camera);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -38,7 +42,7 @@ export default class Webgl {
     this.scene.add(this.cube);
 
     this.ground = new Ground();
-    this.ground.position.set(0, -10, 0);
+    this.ground.position.set(0, -25, -100);
     this.scene.add(this.ground);
 
     if (this.params.usePostprocessing) {
@@ -81,6 +85,6 @@ export default class Webgl {
     }
 
     this.cube.update();
-    this.controls.update();
+    this.ground.update(this.clock.getDelta());
   }
 }
