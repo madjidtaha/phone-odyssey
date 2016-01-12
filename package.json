@@ -34,6 +34,8 @@
     "express": "^4.13.3",
     "glslify": "^5.0.2",
     "lodash.bindall": "^3.1.0",
+    "play": "^0.5.0",
+    "play-sound": "0.0.7",
     "player": "^0.5.1",
     "raf": "^3.1.0",
     "serialport": "^1.7.4",
