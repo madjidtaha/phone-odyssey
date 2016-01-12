@@ -18,34 +18,3 @@ server.start();
 
 var socket = new Websocket(configSocket.port);
 socket.start();
-
-var player = new Player([
-  __dirname + '/server/sounds/tts1.mp3',
-])
-.on('error', function(){
-  console.log('error');
-});
-
-player.play();
-
-var player = new Player([
-  __dirname + '/server/sounds/heyya.mp3'
-]);
-player
-  .on('playing', function(song){
-    console.log('je play lo', song);
-  })
-  .on('playend', function(song){
-    console.log('jer finie', song);
-  })
-  .on('error', function(err) {
-    console.log('jer tromper', err);
-  })
-  .play(function(err, player){
-    console.log('playend!');
-  });
-
-setTimeout(function (){
-  console.log('timeout');
-  player.stop();
-}, 5000);

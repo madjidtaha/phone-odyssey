@@ -3,7 +3,7 @@ import Cube from './objects/Cube';
 import Ground from './objects/Ground';
 import VintagePhoneControls from './controls/VintagePhoneControls';
 import Mediator from 'shared/Mediator';
-import bindAll from 'lodash.bindAll';
+import bindall from 'lodash.bindall';
 import WAGNER from '@superguigui/wagner';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import Vignette2Pass from '@superguigui/wagner/src/passes/vignette/VignettePass';
