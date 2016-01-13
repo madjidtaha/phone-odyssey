@@ -10,8 +10,8 @@ var soundPath = __dirname + '/sounds';
 
 function Sound() {
   bindAll(
-  	this,
-  	'onClientPlay'
+	this,
+	'onClientPlay'
   );
 
   Mediator.on('sound:play', this.onClientPlay);
