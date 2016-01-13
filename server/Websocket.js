@@ -65,6 +65,9 @@ Websocket.prototype.onSoundChange = function(data) {
 Websocket.prototype.startGame = function () {
   console.log('[Phone] open');
   this.io.emit('game:start');
+  Mediator.emit('sound:play', {
+    sound: 'music-pink-floyd'
+  });
 };
 
 Websocket.prototype.stopGame = function () {
