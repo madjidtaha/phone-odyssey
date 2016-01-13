@@ -13,7 +13,8 @@ export default class Ground extends THREE.Object3D {
     this.mat = new THREE.ShaderMaterial({
       uniforms: {
         time: { type: 'f', value: 0.0 },
-        groundmap: { type: 't', value: this.texture }
+        groundmap: { type: 't', value: this.texture },
+        resolution: { type: 'v2', value: new THREE.Vector2() }
       },
       vertexShader: glslify('../shaders/ground.vert'),
       fragmentShader: glslify('../shaders/ground.frag'),
@@ -31,6 +32,11 @@ export default class Ground extends THREE.Object3D {
     this.mesh = new THREE.Mesh(this.geom, this.mat);
     this.add(this.mesh);
     this.rotation.x = Math.PI * -0.5;
+  }
+
+  resize(width, height) {
+    this.mat.uniforms.resolution.value.x = width;
+    this.mat.uniforms.resolution.value.y = height;
   }
 
   update(dt) {

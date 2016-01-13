@@ -9,7 +9,7 @@ var Player = require('player');
 var configServer = require('./config/server');
 var configSocket = require('./config/socket');
 
-var app = new App('/dev/ttyACM0');
+// var app = new App('/dev/ttyACM0');
 
 var sound = new Sound();
 
