@@ -1,6 +1,6 @@
 import THREE from 'three';
-import Cube from './objects/Cube';
 import Ground from './objects/Ground';
+import Torus from './objects/Torus';
 import ParticleEmitter from './objects/ParticleEmitter';
 import VintagePhoneControls from './controls/VintagePhoneControls';
 import Mediator from 'shared/Mediator';
@@ -24,8 +24,16 @@ export default class Webgl {
 
     this.clock = new THREE.Clock(true);
 
+    this.raycaster = new THREE.Raycaster();
+
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
     this.camera.position.z = 100;
+    this.cameraBounds = {
+      top: 60,
+      bottom: -60,
+      right: 120,
+      left: -120
+    };
 
     // this.orbitControls = new OrbitControls(this.camera);
 
@@ -34,14 +42,17 @@ export default class Webgl {
     this.renderer.setClearColor(0x393B74);
     this.renderer.autoClear = false;
 
-    // this.cube = new Cube();
-    // this.cube.position.set(0, 0, 0);
+    this.torusTest = new Torus();
+    this.torusTest.position.set(0, 0, 0);
+    this.scene.add(this.torusTest);
+
     this.particles = new ParticleEmitter();
     this.particles.position.set(0, 0, 0);
     this.scene.add(this.particles);
+    this.particlesPosition2D = new THREE.Vector2();
+    this.normalizeParticlePos();
 
     this.controls = new VintagePhoneControls(this.particles);
-    // Mediator.on('gyro:update', this.onGyroUpdate);
     Mediator.on('compass:update', this.onCompassUpdate);
 
     this.ground = new Ground();
@@ -72,6 +83,7 @@ export default class Webgl {
 
   onCompassUpdate(data) {
     this.controls.updateFromCompass(data.position, data.direction);
+    this.particlesPosition2D = this.normalizeParticlePos();
   }
 
   initPostprocessing() {
@@ -81,7 +93,39 @@ export default class Webgl {
     this.vignette2Pass = new Vignette2Pass();
   }
 
+  normalizeParticlePos() {
+    let x;
+    let y;
+
+    if (this.particles.position.x >= 0) {
+      x = this.particles.position.x / this.cameraBounds.right;
+    } else {
+      x = this.particles.position.x / this.cameraBounds.left;
+    }
+
+    if (this.particles.position.y >= 0) {
+      y = this.particles.position.y / this.cameraBounds.top;
+    } else {
+      y = this.particles.position.y / this.cameraBounds.bottom;
+    }
+
+    return { x, y };
+  }
+
   render() {
+    const dt = this.clock.getDelta();
+
+    this.particles.update(dt);
+    this.ground.update(dt);
+    this.controls.update();
+
+    this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
+    let intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
+
+    if (intersect) {
+        console.log('TOUCH TORUS');
+    }
+
     if (this.params.usePostprocessing) {
       this.composer.reset();
       this.composer.render(this.scene, this.camera);
@@ -93,10 +137,5 @@ export default class Webgl {
       this.renderer.render(this.scene, this.camera);
     }
 
-    const dt = this.clock.getDelta();
-
-    this.particles.update(dt);
-    this.ground.update(dt);
-    this.controls.update();
   }
 }
