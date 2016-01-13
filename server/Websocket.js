@@ -63,12 +63,12 @@ Websocket.prototype.onSoundChange = function(data) {
 }
 
 Websocket.prototype.startGame = function () {
-  console.log('[Phone] close');
+  console.log('[Phone] open');
   this.io.emit('game:start');
 };
 
 Websocket.prototype.stopGame = function () {
-  console.log('[Phone] open');
+  console.log('[Phone] close');
   this.io.emit('game:stop');
 };
 
