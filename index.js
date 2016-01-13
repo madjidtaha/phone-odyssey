@@ -11,8 +11,6 @@ var configSocket = require('./config/socket');
 
 var app = new App('/dev/ttyACM0');
 
-var sound = new Sound();
-
 var server = new Server(configServer.port, configServer.publicDir);
 server.start();
 
