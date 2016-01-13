@@ -31,7 +31,7 @@ export default class Webgl {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0x262626);
+    this.renderer.setClearColor(0x393B74);
     this.renderer.autoClear = false;
 
     // this.cube = new Cube();
@@ -57,7 +57,13 @@ export default class Webgl {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
+    if (this.params.postprocessing) {
+      this.composer.setSize(width, height);
+    }
+
     this.renderer.setSize(width, height);
+
+    this.ground.resize(width, height);
   }
 
   onGyroUpdate(angles) {
