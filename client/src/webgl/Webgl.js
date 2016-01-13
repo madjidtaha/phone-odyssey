@@ -27,7 +27,7 @@ export default class Webgl {
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
     this.camera.position.z = 100;
 
-    this.controls = new OrbitControls(this.camera);
+    // this.orbitControls = new OrbitControls(this.camera);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -91,5 +91,6 @@ export default class Webgl {
 
     this.particles.update(dt);
     this.ground.update(dt);
+    this.controls.update();
   }
 }

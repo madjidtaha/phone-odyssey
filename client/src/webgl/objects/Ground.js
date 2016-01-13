@@ -5,7 +5,7 @@ export default class Ground extends THREE.Object3D {
   constructor() {
     super();
 
-    const plane = new THREE.PlaneGeometry(300, 300, 32, 32);
+    const plane = new THREE.PlaneGeometry(700, 700, 32, 32);
 
     this.geom = new THREE.BufferGeometry()
     this.geom.fromGeometry(plane);
