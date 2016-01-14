@@ -35,6 +35,9 @@ export default class Torus extends THREE.Object3D {
     this.mesh = new THREE.Mesh(this.geom, this.mat);
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
+
+    this.castShadow = true;
+    this.receiveShadow = true;
     this.add(this.mesh);
 
     const colliderGeom = new THREE.SphereGeometry(this.radius, 16, 16);

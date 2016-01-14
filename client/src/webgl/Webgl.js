@@ -44,6 +44,8 @@ export default class Webgl {
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(0x393B74);
     this.renderer.autoClear = false;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     this.torusPool = [];
     this.nbTorus = 10;
