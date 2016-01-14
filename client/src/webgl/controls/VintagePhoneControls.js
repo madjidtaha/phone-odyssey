@@ -6,7 +6,10 @@ export default class VintagePhoneControls {
     this.toY = 0;
     this.toZ = 0;
 
-    this.intencityReduction = 0.1;
+    this.intencityReduction = {
+      x: 0.35,
+      y: 0.5
+    };
     this.dampingFactor = 0.1;
 
     this.originalPos = undefined;
@@ -19,9 +22,9 @@ export default class VintagePhoneControls {
       return;
     }
 
-    this.toX = (pos.x - this.originalPos.x) * this.intencityReduction;
-    this.toY = (pos.y - this.originalPos.y) * this.intencityReduction;
-    this.toZ = (pos.z - this.originalPos.z) * this.intencityReduction;
+    this.toX = -(pos.x - this.originalPos.x) * this.intencityReduction.x;
+    this.toY = (pos.y - this.originalPos.y) * this.intencityReduction.y;
+    // this.toZ = (pos.z - this.originalPos.z) * this.intencityReduction;
   }
 
   updateFromGyro(ax, ay, az) {}
