@@ -41,7 +41,6 @@ export default class Torus extends THREE.Object3D {
   }
 
   onTouch() {
-    console.log('TOUCH');
     if (!this.isActive) { return; }
 
     this.visible = false;
@@ -53,12 +52,12 @@ export default class Torus extends THREE.Object3D {
   }
 
   setRandomPosition() {
+
     this.position.set(
       THREE.Math.randFloat(-100, 100),
       THREE.Math.randFloat(0, 50),
       THREE.Math.randFloat(-500, -1000)
     );
-
     this.speed = THREE.Math.randFloat(1.0, 5.0);
     this.visible = true;
     this.isActive = true;
