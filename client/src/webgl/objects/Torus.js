@@ -1,5 +1,6 @@
 import THREE from 'three';
 const glslify = require('glslify');
+import Mediator from 'shared/Mediator';
 
 export default class Torus extends THREE.Object3D {
   constructor() {
@@ -8,6 +9,7 @@ export default class Torus extends THREE.Object3D {
     this.points = 10;
     this.radius = 8;
     this.isActive = true;
+    this.speed = 1.0;
 
     this.geom = new THREE.TorusGeometry(this.radius, 1, 16, 50);
     this.mat = new THREE.ShaderMaterial({
@@ -33,7 +35,6 @@ export default class Torus extends THREE.Object3D {
   }
 
   resize(width, height) {
-    console.log('[Torus] resize');
 
     this.mat.uniforms.resolution.value.x = width;
     this.mat.uniforms.resolution.value.y = height;
@@ -42,15 +43,30 @@ export default class Torus extends THREE.Object3D {
   onTouch() {
     if (!this.isActive) { return; }
 
-    console.log('TOUCHED');
     this.visible = false;
     this.isActive = false;
+    this.setRandomPosition();
+    Mediator.emit('sound:play', {
+      sound: 'sfx-ring',
+    });
+  }
+
+  setRandomPosition() {
+    this.position.set(
+      THREE.Math.randFloat(-100, 100),
+      THREE.Math.randFloat(0, 50),
+      THREE.Math.randFloat(-500, -1000)
+    );
+
+    this.speed = THREE.Math.randFloat(1.0, 5.0);
+    this.visible = true;
+    this.isActive = true;
   }
 
   update(dt) {
-    console.log('[Torus] update');
 
     this.mat.uniforms.time.value += dt;
-  }
+    this.position.z += this.speed;
 
+  }
 }
