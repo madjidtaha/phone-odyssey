@@ -30,6 +30,7 @@ export default class Ground extends THREE.Object3D {
       vertexShader: shaderParse(glslify('../shaders/ground.vert')),
       fragmentShader: shaderParse(glslify('../shaders/ground.frag')),
       wireframe: false,
+      side: THREE.DoubleSide,
     });
 
     const loader = new THREE.TextureLoader();
