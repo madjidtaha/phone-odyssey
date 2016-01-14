@@ -14,7 +14,7 @@ void main() {
   vec4 texCoord = texture2D(groundmap, vUVOffset);
 
   vec3 newPos = position;
-  newPos.z += 30.0 * texCoord.r;
+  newPos.z += 25.0 * (texCoord.r + texCoord.g);
 
   vec4 worldPosition = modelMatrix * vec4(newPos, 1.0);
 

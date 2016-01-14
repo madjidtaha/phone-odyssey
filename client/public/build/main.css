@@ -43,6 +43,9 @@ h1, h2, h3, h4 {
 
 .game-info {
   position: absolute;
+  top: 30px;
+  right: 30px;
+  text-align: right;
 }
 
 .overlay {

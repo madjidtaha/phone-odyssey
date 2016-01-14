@@ -13,7 +13,7 @@ export default class Ground extends THREE.Object3D {
   constructor() {
     super();
 
-    const plane = new THREE.PlaneGeometry(700, 700, 32, 32);
+    const plane = new THREE.PlaneGeometry(700, 700, 128, 128);
 
     this.geom = new THREE.BufferGeometry()
     this.geom.fromGeometry(plane);
@@ -33,7 +33,7 @@ export default class Ground extends THREE.Object3D {
     });
 
     const loader = new THREE.TextureLoader();
-    loader.load('assets/images/ground-2.jpg', (texture) => {
+    loader.load('assets/images/ground-17.png', (texture) => {
       this.mat.uniforms.groundmap.value = texture;
       this.mat.uniforms.groundmap.value.wrapS = THREE.RepeatWrapping;
       this.mat.uniforms.groundmap.value.wrapT = THREE.RepeatWrapping;
