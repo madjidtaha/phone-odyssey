@@ -18,6 +18,7 @@ export default class Webgl {
     this.gameInstance = gameInstance;
 
     this.params = {
+      constrolsDebug: false,
       usePostprocessing: true,
       vignette: true
     };
@@ -38,7 +39,8 @@ export default class Webgl {
       left: -120
     };
 
-    // this.orbitControls = new OrbitControls(this.camera);
+    this.orbitControls = new OrbitControls(this.camera);
+    this.orbitControls.enabled = this.params.constrolsDebug;
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
@@ -151,10 +153,10 @@ export default class Webgl {
     this.controls.update();
 
     this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
-    let intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
+    const intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
 
     if (intersect) {
-      let d = intersect.object.position.distanceTo(this.particles.position);
+      const d = intersect.object.position.distanceTo(this.particles.position);
 
       if (intersect.object.parent.isActive && d <= intersect.object.parent.radius) {
         intersect.object.parent.onTouch();

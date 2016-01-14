@@ -31,11 +31,16 @@ const soundManager = {
 domready(() => {
   document.body.appendChild(webgl.renderer.domElement);
 
-  gui.add(webgl.params, 'usePostprocessing');
-  gui.add(webgl.params, 'vignette');
+  const fPost = gui.addFolder('PostProcessing');
+  fPost.add(webgl.params, 'usePostprocessing');
+  fPost.add(webgl.params, 'vignette');
+  const fGame = gui.addFolder('Game');
+  fGame.add(game, 'start');
+  fGame.add(game, 'stop');
+  gui.add(webgl.params, 'constrolsDebug').onChange(() => {
+    webgl.orbitControls.enabled = webgl.params.constrolsDebug
+  });
   gui.add(soundManager, 'testSound');
-  gui.add(game, 'start');
-  gui.add(game, 'stop');
 
   // handle resize
   window.onresize = resizeHandler;
