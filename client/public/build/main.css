@@ -89,10 +89,24 @@ h1, h2, h3, h4 {
   animation-iteration-count: infinite;
 }
 
+.text-load {
+  width: 200px;
+  height: 200px;
+  text-align: center;
+}
+
 .text-load h1 {
   opacity: 0;
   font-size: 5em;
   position: absolute;
+  top: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.text-end h2 {
+  font-size: 2.5em;
 }
 
 @keyframes phone {
