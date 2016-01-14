@@ -47,6 +47,8 @@ domready(() => {
   const fPost = gui.addFolder('PostProcessing');
   fPost.add(webgl.params, 'usePostprocessing');
   fPost.add(webgl.params, 'vignette');
+  fPost.add(webgl.params, 'noise');
+  fPost.add(webgl.params, 'bloom');
   const fGame = gui.addFolder('Game');
   fGame.add(game, 'start');
   fGame.add(game, 'stop');

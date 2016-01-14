@@ -11,9 +11,8 @@ void main() {
   vec3 color = mix(colorA, colorB, vec3(vUV.y));
 
   if (step(0.05, mod(vUV.y, 0.1)) < 0.5) {
-    discard;
+    gl_FragColor = vec4(color, 0.0);
+  } else {
+    gl_FragColor = vec4(color, 1.0);
   }
-
-
-  gl_FragColor = vec4(color, 1.0);
 }

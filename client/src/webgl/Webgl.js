@@ -8,6 +8,8 @@ import bindall from 'lodash.bindall';
 import WAGNER from '@superguigui/wagner';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import Vignette2Pass from '@superguigui/wagner/src/passes/vignette/VignettePass';
+import NoisePass from '@superguigui/wagner/src/passes/noise/Noise';
+import BloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass';
 import OrbitControlsNode from 'three-orbit-controls';
 const OrbitControls = OrbitControlsNode(THREE);
 
@@ -20,7 +22,9 @@ export default class Webgl {
     this.params = {
       constrolsDebug: false,
       usePostprocessing: true,
-      vignette: true
+      vignette: true,
+      noise: false,
+      bloom: false,
     };
 
     this.scene = new THREE.Scene();
@@ -119,6 +123,10 @@ export default class Webgl {
     this.composer = new WAGNER.Composer(this.renderer);
     this.fxaaPass = new FXAAPass();
     this.vignette2Pass = new Vignette2Pass();
+    this.noisePass = new NoisePass();
+    this.noisePass.params.amout = 0.005;
+    this.noisePass.params.speed = 0;
+    this.bloomPass = new BloomPass();
   }
 
   normalizeParticlePos() {
@@ -144,6 +152,8 @@ export default class Webgl {
     if (this.params.usePostprocessing) {
       this.composer.reset();
       this.composer.render(this.scene, this.camera);
+      if (this.params.noise) { this.composer.pass(this.noisePass); }
+      if (this.params.bloom) { this.composer.pass(this.bloomPass); }
       if (this.params.vignette) { this.composer.pass(this.vignette2Pass); }
       this.composer.pass(this.fxaaPass);
       this.composer.toScreen();
