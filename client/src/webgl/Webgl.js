@@ -92,8 +92,6 @@ export default class Webgl {
 
     this.renderer.setSize(width, height);
 
-    // this.torusTest.resize(width, height);
-
     this.ground.resize(width, height);
   }
 
@@ -160,7 +158,6 @@ export default class Webgl {
 
     this.gameInstance.removeTime(dt);
 
-    // this.torusTest.update(dt);
     this.particles.update(dt);
     this.ground.update(dt);
     this.controls.update();
