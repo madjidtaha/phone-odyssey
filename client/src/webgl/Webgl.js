@@ -12,8 +12,10 @@ import OrbitControlsNode from 'three-orbit-controls';
 const OrbitControls = OrbitControlsNode(THREE);
 
 export default class Webgl {
-  constructor(width, height) {
-    bindall(this, 'onGyroUpdate', 'onCompassUpdate');
+  constructor(width, height, gameInstance) {
+    bindall(this, 'onCompassUpdate', 'start', 'stop');
+
+    this.gameInstance = gameInstance;
 
     this.params = {
       usePostprocessing: true,
@@ -22,7 +24,8 @@ export default class Webgl {
 
     this.scene = new THREE.Scene();
 
-    this.clock = new THREE.Clock(true);
+    this.clock = new THREE.Clock(false);
+    this.started = false;
 
     this.raycaster = new THREE.Raycaster();
 
@@ -53,7 +56,6 @@ export default class Webgl {
     this.normalizeParticlePos();
 
     this.controls = new VintagePhoneControls(this.particles);
-    Mediator.on('compass:update', this.onCompassUpdate);
 
     this.ground = new Ground();
     this.ground.position.set(0, -25, -100);
@@ -62,6 +64,10 @@ export default class Webgl {
     if (this.params.usePostprocessing) {
       this.initPostprocessing();
     }
+
+    Mediator.on('compass:update', this.onCompassUpdate);
+    Mediator.on('game:start', this.start);
+    Mediator.on('game:stop', this.stop);
   }
 
   resize(width, height) {
@@ -77,8 +83,18 @@ export default class Webgl {
     this.ground.resize(width, height);
   }
 
-  onGyroUpdate(angles) {
-    this.controls.updateFromGyro(angles.x, angles.y, angles.z);
+  // onGyroUpdate(angles) {
+  //   this.controls.updateFromGyro(angles.x, angles.y, angles.z);
+  // }
+
+  start() {
+    this.clock.start();
+    this.started = true;
+  }
+
+  stop() {
+    this.clock.stop();
+    this.started = false;
   }
 
   onCompassUpdate(data) {
@@ -113,19 +129,6 @@ export default class Webgl {
   }
 
   render() {
-    const dt = this.clock.getDelta();
-
-    this.particles.update(dt);
-    this.ground.update(dt);
-    this.controls.update();
-
-    this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
-    let intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
-
-    if (intersect) {
-        console.log('TOUCH TORUS');
-    }
-
     if (this.params.usePostprocessing) {
       this.composer.reset();
       this.composer.render(this.scene, this.camera);
@@ -137,5 +140,26 @@ export default class Webgl {
       this.renderer.render(this.scene, this.camera);
     }
 
+    if (!this.started) { return; }
+
+    const dt = this.clock.getDelta();
+
+    this.gameInstance.removeTime(dt);
+
+    this.particles.update(dt);
+    this.ground.update(dt);
+    this.controls.update();
+
+    this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
+    let intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
+
+    if (intersect) {
+      let d = intersect.object.position.distanceTo(this.particles.position);
+
+      if (intersect.object.parent.isActive && d <= intersect.object.parent.radius) {
+        intersect.object.parent.onTouch();
+        this.gameInstance.addPoints(intersect.object.parent.points);
+      }
+    }
   }
 }

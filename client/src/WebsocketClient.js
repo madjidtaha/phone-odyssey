@@ -8,8 +8,8 @@ export default class WebsocketClient {
       'onConnection',
       'onGyroUpdate',
       'onCompassUpdate',
-      'onGameStart',
-      'onGameStop',
+      'onAppStart',
+      'onAppStop',
       'onSoundChange');
 
     this.url = url;
@@ -25,8 +25,8 @@ export default class WebsocketClient {
   attachEvents() {
     this.io.on('gyro:update', this.onGyroUpdate);
     this.io.on('compass:update', this.onCompassUpdate);
-    this.io.on('game:stop', this.onGameStop);
-    this.io.on('game:start', this.onGameStart);
+    this.io.on('game:stop', this.onAppStop);
+    this.io.on('game:start', this.onAppStart);
     Mediator.on('sound:play', this.onSoundChange);
   }
 
@@ -38,14 +38,14 @@ export default class WebsocketClient {
     Mediator.emit('compass:update', data);
   }
 
-  onGameStart() {
-    Mediator.emit('client:game:start');
-    console.log('[Socket] Game - start');
+  onAppStart() {
+    Mediator.emit('app:start');
+    console.log('[Socket] App - start');
   }
 
-  onGameStop() {
-    Mediator.emit('client:game:stop');
-    console.log('[Socket] Game - stop');
+  onAppStop() {
+    Mediator.emit('app:stop');
+    console.log('[Socket] App - stop');
   }
 
   onSoundChange(data) {

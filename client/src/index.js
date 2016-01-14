@@ -5,9 +5,11 @@ import WebsocketClient from './WebsocketClient';
 import Mediator from 'shared/Mediator';
 import raf from 'raf';
 import dat from 'dat-gui';
+import Game from './Game';
 
 const socketServer = new WebsocketClient(socketConfig.url);
-const webgl = new Webgl(window.innerWidth, window.innerHeight);
+const game = new Game(document.getElementById('timevalue'), document.getElementById('scorevalue'));
+const webgl = new Webgl(window.innerWidth, window.innerHeight, game);
 const gui = new dat.GUI();
 
 function resizeHandler() {
@@ -16,7 +18,7 @@ function resizeHandler() {
 
 // TODO: Make it clean please
 const soundManager = {
-  
+
   testSound() {
     console.log('SOUND CLICKED');
     Mediator.emit('sound:play', {
@@ -32,6 +34,8 @@ domready(() => {
   gui.add(webgl.params, 'usePostprocessing');
   gui.add(webgl.params, 'vignette');
   gui.add(soundManager, 'testSound');
+  gui.add(game, 'start');
+  gui.add(game, 'stop');
 
   // handle resize
   window.onresize = resizeHandler;
