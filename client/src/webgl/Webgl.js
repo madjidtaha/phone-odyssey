@@ -47,9 +47,9 @@ export default class Webgl {
     this.renderer.setClearColor(0x393B74);
     this.renderer.autoClear = false;
 
-    this.torusTest = new Torus();
-    this.torusTest.position.set(0, 0, 0);
-    this.scene.add(this.torusTest);
+    this.torusPool = [];
+    this.nbTorus = 1;
+    this.populateToruses();
 
     this.particles = new ParticleEmitter();
     this.particles.position.set(0, 0, 0);
@@ -70,6 +70,16 @@ export default class Webgl {
     Mediator.on('compass:update', this.onCompassUpdate);
     Mediator.on('game:start', this.start);
     Mediator.on('game:stop', this.stop);
+  }
+
+  populateToruses() {
+    let t;
+    for (let i = 0; i < this.nbTorus; i++) {
+      t = new Torus();
+      t.setRandomPosition();
+      this.torusPool.push(t)
+      this.scene.add(t);
+    }
   }
 
   resize(width, height) {
@@ -153,15 +163,24 @@ export default class Webgl {
     this.controls.update();
 
     this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
-    const intersect = this.raycaster.intersectObject(this.torusTest.collider)[0];
+    let intersect;
+    this.torusPool.forEach((torus) => {
+      torus.update();
 
-    if (intersect) {
-      const d = intersect.object.position.distanceTo(this.particles.position);
+      intersect = this.raycaster.intersectObject(torus)[0];
 
-      if (intersect.object.parent.isActive && d <= intersect.object.parent.radius) {
-        intersect.object.parent.onTouch();
-        this.gameInstance.addPoints(intersect.object.parent.points);
+      if (intersect) {
+        const d = intersect.object.position.distanceTo(this.particles.position);
+
+        if (intersect.object.parent.isActive && d <= intersect.object.parent.radius) {
+          intersect.object.parent.onTouch();
+          this.gameInstance.addPoints(intersect.object.parent.points);
+        }
       }
-    }
+
+      if (torus.position.z > 100) {
+        torus.setRandomPosition();
+      }
+    })
   }
 }

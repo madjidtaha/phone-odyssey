@@ -22,7 +22,7 @@ const soundManager = {
   testSound() {
     console.log('SOUND CLICKED');
     Mediator.emit('sound:play', {
-      sound: 'tts1',
+      sound: 'sfx-ring',
     });
   }
 
