@@ -33,6 +33,7 @@
     "domready": "^1.0.8",
     "express": "^4.13.3",
     "glslify": "^5.0.2",
+    "gsap": "^1.18.2",
     "lodash.bindall": "^3.1.0",
     "play": "^0.5.0",
     "play-sound": "0.0.7",

@@ -10,9 +10,9 @@ export default class Game {
 
     this.started = false;
     this.points = 0;
-    this.remainingTime = 180; // 3 minutes in seconds
+    this.pointsToWin = 50;
+    this.remainingTime = 90; // seconds
 
-    Mediator.on('app:start', this.start);
     Mediator.on('app:stop', this.stop);
     Mediator.on('game:addpoints', this.addPoints);
   }
@@ -35,12 +35,28 @@ export default class Game {
 
   reset() {
     this.points = 0;
-    this.remainingTime = 180; // 3 minutes in seconds
+    this.remainingTime = 60; // 3 minutes in seconds
   }
 
   removeTime(t) {
     this.remainingTime -= t;
-    this.timeEl.innerHTML = (this.remainingTime / 60).toFixed(2);
+    this.timeEl.innerHTML = this.remainingTime.toFixed(2);
+
+    if (this.remainingTime <= 0) {
+      this.checkVictory();
+    }
+  }
+
+  checkVictory() {
+    if (!this.started) { return; }
+
+    this.stop();
+
+    if (this.points >= this.pointsToWin) {
+      Mediator.emit('game:win');
+    } else {
+      Mediator.emit('game:lose');
+    }
   }
 
   addPoints(pts) {
