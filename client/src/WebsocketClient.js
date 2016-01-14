@@ -49,7 +49,6 @@ export default class WebsocketClient {
   }
 
   onSoundChange(data) {
-    console.log(this.io);
     this.io.emit('sound:play', data)
   }
 

@@ -41,6 +41,7 @@ export default class Torus extends THREE.Object3D {
   }
 
   onTouch() {
+    console.log('TOUCH');
     if (!this.isActive) { return; }
 
     this.visible = false;

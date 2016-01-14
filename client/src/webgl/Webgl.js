@@ -92,7 +92,7 @@ export default class Webgl {
 
     this.renderer.setSize(width, height);
 
-    this.torusTest.resize(width, height);
+    // this.torusTest.resize(width, height);
 
     this.ground.resize(width, height);
   }
@@ -170,14 +170,14 @@ export default class Webgl {
     this.torusPool.forEach((torus) => {
       torus.update(dt);
 
-      intersect = this.raycaster.intersectObject(torus)[0];
+      intersect = this.raycaster.intersectObject(torus.collider)[0];
 
       if (intersect) {
-        const d = intersect.object.position.distanceTo(this.particles.position);
+        const d = this.particles.position.distanceTo(torus.position);
 
-        if (intersect.object.parent.isActive && d <= intersect.object.parent.radius) {
-          intersect.object.parent.onTouch();
-          this.gameInstance.addPoints(intersect.object.parent.points);
+        if (torus.isActive && d <= torus.radius) {
+          torus.onTouch();
+          this.gameInstance.addPoints(torus.points);
         }
       }
 
