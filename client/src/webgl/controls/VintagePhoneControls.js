@@ -7,8 +7,8 @@ export default class VintagePhoneControls {
     this.toZ = 0;
 
     this.intencityReduction = {
-      x: 0.35,
-      y: 0.5
+      x: -0.5,
+      y: -0.5
     };
     this.dampingFactor = 0.1;
 
@@ -22,7 +22,7 @@ export default class VintagePhoneControls {
       return;
     }
 
-    this.toX = -(pos.x - this.originalPos.x) * this.intencityReduction.x;
+    this.toX = (pos.x - this.originalPos.x) * this.intencityReduction.x;
     this.toY = (pos.y - this.originalPos.y) * this.intencityReduction.y;
     // this.toZ = (pos.z - this.originalPos.z) * this.intencityReduction;
   }

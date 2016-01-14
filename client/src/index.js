@@ -54,6 +54,7 @@ domready(() => {
     webgl.orbitControls.enabled = webgl.params.constrolsDebug
   });
   gui.add(soundManager, 'testSound');
+  gui.close();
 
   Mediator.on('app:start', telephoneDecroche);
   Mediator.on('game:win', onGameWin);
@@ -121,7 +122,8 @@ function onGameWin() {
     <h2>VICTOIRE!</h2>
     <p>Vous avez établie la connexion avec votre correspondant</p>
   `;
-  $overlay.style.visibility = 'inherit';
+  TweenMax.to($overlay, 0.6, { alpha: 0.6, ease: Cubic.easeOut });
+  $textEnd.style.visibility = 'visible';
 
   Mediator.emit('sound:play', {
     sound: 'tts-win',

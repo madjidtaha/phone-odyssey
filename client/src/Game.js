@@ -10,8 +10,8 @@ export default class Game {
 
     this.started = false;
     this.points = 0;
-    this.pointsToWin = 150;
-    this.remainingTime = 60; // seconds
+    this.pointsToWin = 50;
+    this.remainingTime = 90; // seconds
 
     Mediator.on('app:stop', this.stop);
     Mediator.on('game:addpoints', this.addPoints);

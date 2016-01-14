@@ -28,8 +28,6 @@ export default class Webgl {
     this.clock = new THREE.Clock(false);
     this.started = false;
 
-    this.raycaster = new THREE.Raycaster();
-
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
     this.camera.position.z = 100;
     this.cameraBounds = {
@@ -67,7 +65,6 @@ export default class Webgl {
       this.initPostprocessing();
     }
 
-    Mediator.on('compass:update', this.onCompassUpdate);
     Mediator.on('game:start', this.start);
     Mediator.on('game:stop', this.stop);
   }
@@ -102,6 +99,7 @@ export default class Webgl {
   start() {
     this.clock.start();
     this.started = true;
+    Mediator.on('compass:update', this.onCompassUpdate);
   }
 
   stop() {
@@ -162,20 +160,14 @@ export default class Webgl {
     this.ground.update(dt);
     this.controls.update();
 
-    this.raycaster.setFromCamera(this.particlesPosition2D, this.camera);
-    let intersect;
     this.torusPool.forEach((torus) => {
       torus.update(dt);
 
-      intersect = this.raycaster.intersectObject(torus.collider)[0];
+      const d = this.particles.position.distanceTo(torus.position);
 
-      if (intersect) {
-        const d = this.particles.position.distanceTo(torus.position);
-
-        if (torus.isActive && d <= torus.radius) {
-          torus.onTouch();
-          this.gameInstance.addPoints(torus.points);
-        }
+      if (torus.isActive && d <= torus.radius) {
+        torus.onTouch();
+        this.gameInstance.addPoints(torus.points);
       }
 
       if (torus.position.z > 100) {
