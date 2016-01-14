@@ -15,7 +15,7 @@ export default class Ground extends THREE.Object3D {
 
     const plane = new THREE.PlaneGeometry(700, 700, 128, 128);
 
-    this.geom = new THREE.BufferGeometry()
+    this.geom = new THREE.BufferGeometry();
     this.geom.fromGeometry(plane);
 
     this.mat = new THREE.ShaderMaterial({
@@ -29,7 +29,7 @@ export default class Ground extends THREE.Object3D {
         }]),
       vertexShader: shaderParse(glslify('../shaders/ground.vert')),
       fragmentShader: shaderParse(glslify('../shaders/ground.frag')),
-      wireframe: false
+      wireframe: false,
     });
 
     const loader = new THREE.TextureLoader();
@@ -43,6 +43,9 @@ export default class Ground extends THREE.Object3D {
     this.mesh = new THREE.Mesh(this.geom, this.mat);
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
+
+    this.castShadow = true;
+    this.receiveShadow = true;
 
     this.add(this.mesh);
     this.rotation.x = Math.PI * -0.5;
