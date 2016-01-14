@@ -1,6 +1,14 @@
 import THREE from 'three';
 const glslify = require('glslify');
 
+function replaceThreeChunkFn(a, b) {
+  return THREE.ShaderChunk[b] + '\n';
+}
+
+function shaderParse(glsl) {
+  return glsl.replace(/\/\/\s?chunk\(\s?(\w+)\s?\);/g, replaceThreeChunkFn);
+}
+
 export default class Ground extends THREE.Object3D {
   constructor() {
     super();
@@ -11,13 +19,16 @@ export default class Ground extends THREE.Object3D {
     this.geom.fromGeometry(plane);
 
     this.mat = new THREE.ShaderMaterial({
-      uniforms: {
-        time: { type: 'f', value: 0.0 },
-        groundmap: { type: 't', value: this.texture },
-        resolution: { type: 'v2', value: new THREE.Vector2() }
-      },
-      vertexShader: glslify('../shaders/ground.vert'),
-      fragmentShader: glslify('../shaders/ground.frag'),
+      uniforms: THREE.UniformsUtils.merge([
+        THREE.UniformsLib.shadowmap,
+        {
+          time: { type: 'f', value: 0.0 },
+          groundmap: { type: 't', value: this.texture },
+          resolution: { type: 'v2', value: new THREE.Vector2() },
+          lightPosition: { type: 'v3', value: new THREE.Vector3(700, 700, 700) },
+        }]),
+      vertexShader: shaderParse(glslify('../shaders/ground.vert')),
+      fragmentShader: shaderParse(glslify('../shaders/ground.frag')),
       wireframe: false
     });
 
@@ -30,6 +41,9 @@ export default class Ground extends THREE.Object3D {
     });
 
     this.mesh = new THREE.Mesh(this.geom, this.mat);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+
     this.add(this.mesh);
     this.rotation.x = Math.PI * -0.5;
   }
