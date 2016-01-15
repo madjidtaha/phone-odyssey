@@ -28,6 +28,7 @@ Compass.prototype.setValues = function(x, y, z) {
 };
 
 Compass.prototype.onChange = function() {
+  console.log('cc', this.position);
   Mediator.emit('compass:change', { position: this.position, direction: this.direction });
 };
 

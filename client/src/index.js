@@ -11,7 +11,7 @@ import 'gsap';
 const socketServer = new WebsocketClient(socketConfig.url);
 const game = new Game(document.getElementById('timevalue'), document.getElementById('scorevalue'));
 const webgl = new Webgl(window.innerWidth, window.innerHeight, game);
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 let rafRef;
 
 const $overlay = document.querySelector('.overlay');
@@ -44,19 +44,19 @@ const soundManager = {
 domready(() => {
   document.body.appendChild(webgl.renderer.domElement);
 
-  const fPost = gui.addFolder('PostProcessing');
-  fPost.add(webgl.params, 'usePostprocessing');
-  fPost.add(webgl.params, 'vignette');
-  fPost.add(webgl.params, 'noise');
-  fPost.add(webgl.params, 'bloom');
-  const fGame = gui.addFolder('Game');
-  fGame.add(game, 'start');
-  fGame.add(game, 'stop');
-  gui.add(webgl.params, 'constrolsDebug').onChange(() => {
-    webgl.orbitControls.enabled = webgl.params.constrolsDebug
-  });
-  gui.add(soundManager, 'testSound');
-  gui.close();
+  // const fPost = gui.addFolder('PostProcessing');
+  // fPost.add(webgl.params, 'usePostprocessing');
+  // fPost.add(webgl.params, 'vignette');
+  // fPost.add(webgl.params, 'noise');
+  // fPost.add(webgl.params, 'bloom');
+  // const fGame = gui.addFolder('Game');
+  // fGame.add(game, 'start');
+  // fGame.add(game, 'stop');
+  // gui.add(webgl.params, 'constrolsDebug').onChange(() => {
+  //   webgl.orbitControls.enabled = webgl.params.constrolsDebug
+  // });
+  // gui.add(soundManager, 'testSound');
+  // gui.close();
 
   Mediator.on('app:start', telephoneDecroche);
   Mediator.on('app:stop', () => {
