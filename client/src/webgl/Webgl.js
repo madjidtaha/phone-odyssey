@@ -1,6 +1,7 @@
 import THREE from 'three';
 import Ground from './objects/Ground';
 import Torus from './objects/Torus';
+import Sky from './objects/Sky';
 import ParticleEmitter from './objects/ParticleEmitter';
 import VintagePhoneControls from './controls/VintagePhoneControls';
 import Mediator from 'shared/Mediator';
@@ -43,6 +44,10 @@ export default class Webgl {
 
     this.orbitControls = new OrbitControls(this.camera);
     this.orbitControls.enabled = this.params.constrolsDebug;
+
+    this.sky = new Sky();
+    this.sky.position.set(0, 0, -500);
+    this.scene.add(this.sky);
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);

@@ -59,6 +59,11 @@ domready(() => {
   gui.close();
 
   Mediator.on('app:start', telephoneDecroche);
+  Mediator.on('app:stop', () => {
+    setTimeout(function() {
+      window.location.reload();
+    });
+  });
   Mediator.on('game:win', onGameWin);
   Mediator.on('game:lose', onGameLoose);
 
@@ -73,7 +78,7 @@ function telephoneDecroche() {
     Mediator.emit('sound:play', {
       sound: 'tts-hello',
     });
-  }, 2000);
+  }, 1500);
 
   setTimeout(function () {
     TweenMax.fromTo($textIntro.querySelector('h1'), 0.8,
