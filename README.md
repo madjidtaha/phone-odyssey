@@ -1,4 +1,4 @@
-Vintage Phone
+Phone Odyssey
 =============
 
 The project we made for the Arduino workshop at [Gobelins, l'école de l'image](http://www.gobelins.fr)
